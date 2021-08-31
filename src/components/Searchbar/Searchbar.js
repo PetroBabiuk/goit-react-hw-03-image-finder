@@ -1,41 +1,31 @@
 import { Component } from 'react';
-import shortid from 'shortid';
-import s from './Searchbar.module.css';
+import { toast } from 'react-toastify';
 
 class Searchbar extends Component {
-    // state = {
-    //     name: '',
-    //     number: '',
-    // };
+    state = {
+        inputValue: '',
+    };
 
-    // nameInputId = shortid.generate();
-    // numberInputId = shortid.generate();
+    handleInputChange = e => {
+        this.setState({ inputValue: e.currentTarget.value });
+    };
 
-    // handleChange = (evt) => {
-    //     const { name, value } = evt.currentTarget;
+    handleSubmit = e => {
+        e.preventDefault();
 
-    //     this.setState({
-    //      [name]: value,
-    //     });
-    // };
+        if (this.state.inputValue.trim() === '') {
+          return toast.error('Please do not use empty string, you have to write something');
+        }
 
-    // handleSubmit = (evt) => {
-    //     evt.preventDefault();
-    //     this.props.onSubmit(this.state);
-    //     this.reset();
-    // };
+        this.props.onSubmit(this.state.inputValue);
+        this.setState({ inputValue: '' });
+    };
 
-    // reset = () => {
-    //     this.setState({
-    //         name: '',
-    //         number: '',
-    //     });
-    // };
-
+    
     render() {
         return (
             <header className="Searchbar">
-                <form className="SearchForm">
+                <form className="SearchForm" onSubmit={this.handleSubmit}>
                     <button type="submit" className="SearchForm-button">
                         <span className="SearchForm-button-label">Search</span>
                     </button>
@@ -43,10 +33,12 @@ class Searchbar extends Component {
                     <input
                         className="SearchForm-input"
                         type="text"
-                        autocomplete="off"
-                        autofocus
+                        autoComplete="off"
+                        autoFocus
                         placeholder="Search images and photos"
-                    />
+                        value={this.state.inputValue}
+                        onChange={this.handleInputChange}
+                        />
                 </form>
             </header>
         );

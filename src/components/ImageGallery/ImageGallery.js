@@ -1,15 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import shortid from 'shortid';
-import s from './ImageGallery.module.css';
+import ImageGalleryItem from '../ImageGalleryItem';
 
-const ImageGallery = () => {
-    // const inputId = shortid.generate();
-    // const labeltId = shortid.generate();
-    return (
-        <ul className="ImageGallery">
-        </ul>
-    );
-}    
+const ImageGallery = ({ images }) => (
+    <ul className="ImageGallery">
+        {images.map(image => (
+            <ImageGalleryItem
+                key={image.id}
+                id={image.id}
+                // largeImageURL={image.largeImageURL}
+                webformatURL={image.webformatURL}
+            />
+        ))}
+    </ul>
+);
+
+ImageGallery.propTypes = {
+    images: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default ImageGallery;
